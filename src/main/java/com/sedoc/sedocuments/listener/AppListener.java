@@ -5,6 +5,11 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
+/**
+ * 页面加载监听器
+ *
+ * 丁佳男
+ */
 @WebListener
 public class AppListener implements ServletContextListener{
 

@@ -25,11 +25,11 @@
     <div class="login_face"><img src="${ctx}/resources/images/face.jpg" class="userAvatar" alt="登录框图标"></div>
     <div class="layui-form-item input-item">
         <label for="userName">用户名</label>
-        <input id="userName" type="text" placeholder="请输入用户名" autocomplete="off" name="loginname" class="layui-input" lay-verify="required">
+        <input id="userName" type="text" placeholder="请输入用户名" autocomplete="off" name="phone" class="layui-input" lay-verify="required">
     </div>
     <div class="layui-form-item input-item">
         <label for="password">密码</label>
-        <input id="password" type="password" placeholder="请输入密码" autocomplete="off" name="pwd" class="layui-input" lay-verify="required">
+        <input id="password" type="password" placeholder="请输入密码" autocomplete="off" name="password" class="layui-input" lay-verify="required">
     </div>
     <div class="layui-form-item input-item" id="imgCode">
         <label for="code">验证码</label>
