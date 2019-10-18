@@ -16,4 +16,11 @@
             </if>
         </where>
     </select>
+
+    <!--根据角色查询权限-->
+    <select id="queryAccessByRoleid" resultType="Access">
+        select DISTINCT t1.* from access t1 INNER JOIN role_access t2
+        ON(t1.accessid=t2.accessid and t1.isDel=#{isDel})
+        where t2.roleid=#{roleid}
+    </select>
 </mapper>

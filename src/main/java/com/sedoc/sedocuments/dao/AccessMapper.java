@@ -17,4 +17,6 @@ public interface AccessMapper {
      * 查询所有菜单
      */
     List<Access> queryAllAccess(Access access);
+
+    List<Access> queryAccessByRoleid(Integer isDel,Integer roleid);
 }

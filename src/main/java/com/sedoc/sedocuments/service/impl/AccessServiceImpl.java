@@ -24,7 +24,8 @@ public class AccessServiceImpl implements AccessService {
     }
 
     @Override
-    public List<Access> queryAccessByUidForList(AccessVo accessVo, Integer uid) {
-        return null;
+    public List<Access> queryAccessByRoleidForList(AccessVo accessVo, Integer roleid) {
+
+        return accessMapper.queryAccessByRoleid(accessVo.getIsDel(),roleid);
     }
 }

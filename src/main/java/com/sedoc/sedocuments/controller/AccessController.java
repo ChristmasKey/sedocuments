@@ -36,7 +36,7 @@ public class AccessController {
         if(user.getRoleid().equals(SysConstast.USER_TYPE_SUPER)){
             list=accessService.queryAllAccessForList(accessVo);
         }else{
-            list=accessService.queryAccessByUidForList(accessVo,user.getUid());
+            list=accessService.queryAccessByRoleidForList(accessVo,user.getRoleid());
         }
         List<TreeNode> nodes = new ArrayList<>();
         //把list里面的数据放到nodes

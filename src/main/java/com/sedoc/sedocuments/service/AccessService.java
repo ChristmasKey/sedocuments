@@ -20,5 +20,5 @@ public interface AccessService {
     /**
      * 根据用户id查询用户的可用菜单
      */
-    public List<Access> queryAccessByUidForList(AccessVo accessVo,Integer uid);
+    public List<Access> queryAccessByRoleidForList(AccessVo accessVo,Integer roleid);
 }
