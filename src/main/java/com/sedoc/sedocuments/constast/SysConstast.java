@@ -18,13 +18,15 @@ public interface SysConstast {
     /**
      * 用户类型
      */
-    Integer USER_TYPE_SUPER=1;
-    Integer USER_TYPE_NORMAL=2;
+    Integer USER_TYPE_NORMAL=1;
+    Integer USER_TYPE_SUPER=2;
+    Integer USER_TYPE_USERMANAGER=3;
+    Integer USER_TYPE_TEMPLATEMANAGER=4;
 
     /**
      * 是否展开
      */
-    Integer SPREAD_TRUE=1;
+    Integer SPREAD_TRUE=0;
     Integer SPREAD_FALSE=1;
 
     /**
