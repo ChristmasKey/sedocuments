@@ -9,10 +9,13 @@
         select * from access
         <where>
             <if test="title!=null and title!=''">
-                and title like CONCAT("%",#{title},"%")
+                and title like concat("%",#{title},"%")
             </if>
             <if test="isDel!=null">
                 and isDel=#{isDel}
+            </if>
+            <if test="accessid!=null">
+                and (accessid=#{accessid} or pid=#{accessid})
             </if>
         </where>
     </select>
@@ -23,4 +26,102 @@
         ON(t1.accessid=t2.accessid and t1.isDel=#{isDel})
         where t2.roleid=#{roleid}
     </select>
+
+    <!--根据pid查询权限数量-->
+    <select id="queryAccessByPid" resultType="Integer">
+        select count(1) from access where pid=#{pid} and isDel=1
+    </select>
+
+    <!--根据权限id删除role_access里面的数据-->
+    <delete id="deleteRoleAccessByAid">
+        delete from role_access where accessid=#{accessid}
+    </delete>
+
+    <insert id="insertSelective" parameterType="Access">
+        insert into access
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="accessid!=null">
+                accessid,
+            </if>
+            <if test="pid != null">
+                pid,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="href != null">
+                href,
+            </if>
+            <if test="spread != null">
+                spread,
+            </if>
+            <if test="target != null">
+                target,
+            </if>
+            <if test="icon != null">
+                icon,
+            </if>
+            <if test="isDel!=null">
+                isDel,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="accessid != null">
+                #{accessid,jdbcType=INTEGER},
+            </if>
+            <if test="pid != null">
+                #{pid,jdbcType=INTEGER},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="href != null">
+                #{href,jdbcType=VARCHAR},
+            </if>
+            <if test="spread != null">
+                #{spread,jdbcType=INTEGER},
+            </if>
+            <if test="target != null">
+                #{target,jdbcType=VARCHAR},
+            </if>
+            <if test="icon != null">
+                #{icon,jdbcType=VARCHAR},
+            </if>
+            <if test="isDel != null">
+                #{isDel,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="Access">
+        update access
+        <set>
+            <if test="pid != null">
+                pid = #{pid,jdbcType=INTEGER},
+            </if>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="href != null">
+                href = #{href,jdbcType=VARCHAR},
+            </if>
+            <if test="spread != null">
+                spread = #{spread,jdbcType=INTEGER},
+            </if>
+            <if test="target != null">
+                target = #{target,jdbcType=VARCHAR},
+            </if>
+            <if test="icon != null">
+                icon = #{icon,jdbcType=VARCHAR},
+            </if>
+            <if test="isDel != null">
+                isDel = #{isDel,jdbcType=INTEGER},
+            </if>
+        </set>
+        where accessid = #{accessid,jdbcType=INTEGER}
+    </update>
+
+    <update id="deleteByPrimaryKey" parameterType="Integer">
+        update access set isDel=0 where accessid=#{accessid}
+    </update>
 </mapper>

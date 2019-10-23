@@ -4,6 +4,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
+ * 页面跳转控制器  作用：路由
+ *
  * 丁佳男
  */
 @Controller
@@ -16,4 +18,13 @@ public class DeskController {
     public String toDeskManager(){
         return "deskManager";
     }
+
+    /**
+     * 跳转到权限管理
+     */
+    @RequestMapping("toAccessManager")
+    public String toAccessManager(){
+        return "manager/accessManager";
+    }
+
 }
