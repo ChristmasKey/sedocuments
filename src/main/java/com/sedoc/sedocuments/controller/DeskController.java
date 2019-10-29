@@ -27,4 +27,11 @@ public class DeskController {
         return "manager/accessManager";
     }
 
+    /**
+     * 跳转到模板管理
+     */
+    @RequestMapping("toTemplateManager")
+    public String toTemplateManager(){
+        return "manager/templateManager";
+    }
 }
