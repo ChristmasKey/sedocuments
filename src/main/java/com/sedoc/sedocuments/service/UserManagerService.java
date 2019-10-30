@@ -28,6 +28,12 @@ public interface UserManagerService {
     int deleteUser(Integer uid);
 
     /**
+     * 批量删除用户
+     * @param ids
+     */
+    public void deleteBatchUser(Integer [] ids);
+
+    /**
      * 添加用户
      * @param userVo
      * @return

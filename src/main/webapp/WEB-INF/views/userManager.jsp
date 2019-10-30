@@ -53,8 +53,9 @@
         <button type="button" lay-event="add" class="layui-btn layui-btn-sm"><span
                 class="layui-icon layui-icon-add-1"></span>添加用户
         </button>
+        <button type="button" class="layui-btn layui-btn-danger layui-btn-sm" lay-event="deleteBatch">
+            <span class="layui-icon layui-icon-delete"></span>批量删除</button>
     </div>
-
     <div id="userRowBar" style="display: none;">
         <button type="button" lay-event="update" class="layui-btn layui-btn-sm"><span
                 class="layui-icon layui-icon-edit"></span>编辑
@@ -240,6 +241,9 @@
                 case 'add':
                     openAddLayer();
                     break;
+                case 'deleteBatch':
+                    deleteBatch();
+                    break;
             }
             ;
         });
@@ -257,6 +261,7 @@
                 case 'selectRole':
                     selectRole(data);
                     break;
+
             }
             ;
         });
@@ -317,6 +322,28 @@
             });
         }
 
+        //批量删除
+        function deleteBatch(){
+            //得到选中的数据行
+            var checkStatus = table.checkStatus('userTable');
+            var data = checkStatus.data;
+            var params="";
+            $.each(data,function(i,item){
+                if(i==0){
+                    params+="ids="+item.uid;
+                }else{
+                    params+="&ids="+item.uid;
+                }
+            });
+            layer.confirm('真的删除选中的这些用户吗', function(index){
+                //向服务端发送删除指令
+                $.post("${ctx}/userManager/deleteBatchUser",params,function(res){
+                    layer.msg(res.msg);
+                    //刷新数据 表格
+                    tableIns.reload();
+                })
+            });
+        }
         //打开分配角色的弹出层
         function selectRole(data) {
             mainIndex = layer.open({

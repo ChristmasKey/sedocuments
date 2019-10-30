@@ -42,6 +42,13 @@ public class UserManagerServiceImpl implements UserManagerService {
     }
 
     @Override
+    public void deleteBatchUser(Integer[] ids) {
+        for(Integer uid:ids){
+            userManagerMapper.deleteById(uid);
+        }
+    }
+
+    @Override
     public int addUser(UserVo userVo) {
         int result=userManagerMapper.addUser(userVo);
         return result;

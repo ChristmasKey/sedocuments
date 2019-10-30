@@ -64,6 +64,21 @@ public class UserManagerController {
     }
 
     /**
+     * 批量删除
+     * @param userVo
+     * @return
+     */
+    @RequestMapping("/deleteBatchUser")
+    public ResultObj deleteBatchUser(UserVo userVo) {
+        try {
+            userManagerService.deleteBatchUser(userVo.getIds());
+            return ResultObj.DELETE_SUCCESS;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultObj.DELETE_ERROR;
+        }
+    }
+    /**
      * 添加用户
      * @param userVo
      * @return
