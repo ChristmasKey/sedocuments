@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sedoc.sedocuments.dao.DocumentMapper">
+    <!--丁佳男-->
+    <!--查询所有文档-->
+    <select id="queryAllDocument" resultType="Document">
+        select * from document
+        <where>
+            <if test="docid!=null">
+                and docid=#{docid}
+            </if>
+            <if test="doctitle!=null and doctitle!=''">
+                and doctitle like concat("%",#{doctitle},"%")
+            </if>
+            <if test="projectid!=null">
+                and projectid=#{projectid}
+            </if>
+            <if test="isDel!=null">
+                and isDel=#{isDel}
+            </if>
+        </where>
+    </select>
+</mapper>
