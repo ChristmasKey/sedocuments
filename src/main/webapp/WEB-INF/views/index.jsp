@@ -99,7 +99,7 @@
     </div>
     <!-- 底部 -->
     <div class="layui-footer footer">
-        <p><span>copyright @2019 老雷</span></p>
+        <p><span>copyright @2019 南京矽鼎信息科技有限公司</span></p>
     </div>
 </div>
 
