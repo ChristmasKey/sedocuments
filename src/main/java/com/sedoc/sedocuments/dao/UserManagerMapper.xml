@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sedoc.sedocuments.dao.UserManagerMapper">
+    <resultMap id="BaseResultMap" type="User">
+        <id column="uid" jdbcType="INTEGER" property="uid" />
+        <result column="username" jdbcType="VARCHAR" property="username" />
+        <result column="phone" jdbcType="VARCHAR" property="phone" />
+        <result column="password" jdbcType="VARCHAR" property="password" />
+        <result column="email" jdbcType="VARCHAR" property="email" />
+        <result column="gender" jdbcType="INTEGER" property="gender" />
+        <result column="birthday" jdbcType="DATE" property="birthday" />
+        <result column="school" jdbcType="VARCHAR" property="school" />
+        <result column="major" jdbcType="VARCHAR" property="major" />
+        <result column="stuid" jdbcType="VARCHAR" property="stuid" />
+        <result column="roleid" jdbcType="INTEGER" property="roleid" />
+        <result column="isDel" jdbcType="INTEGER" property="isDel" />
+    </resultMap>
+    <sql id="Base_Column_List">
+		uid,username,phone,password,email,gender,birthday,school,major,stuid,roleid,isDel
+	</sql>
+    <!--汪松-->
+    <!--查询所有用户 where isDel=1-->
+    <select id="queryAllUser" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List" /> from  user
+        <where>
+            <if test="username!=null and username!=''">
+                and username like CONCAT("%",#{username},"%")
+            </if>
+            <if test="isDel!=null and isDel!=''">
+                and isDel=#{isDel}
+            </if>
+        </where>
+    </select>
+
+    <!--查询所有用户根据用户名称-->
+    <select id="queryAllUserByUsername" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List" /> from  user where username like '%'#{username}'%' and isDel=1
+    </select>
+    <!--根据id删除用户 0为删除，1为存在-->
+    <update id="deleteById" parameterType="java.lang.Integer">
+        update user set isDel=0 where uid=#{uid}
+    </update>
+
+    <!--添加用户-->
+    <insert id="addUser" parameterType="User">
+        insert into user
+        (username,phone,password,email,gender,birthday,school,major,stuid,roleid,isDel)
+        values
+        (#{username},#{phone},#{password},#{email},#{gender},#{birthday},#{school},#{major},#{stuid},1,1)
+    </insert>
+
+    <!--修改用户-->
+    <update id="updateUserById" parameterType="User">
+        update user
+        <set>
+            <if test="username != null">
+                username=#{username},
+            </if>
+            <if test="phone != null">
+                phone=#{phone},
+            </if>
+            <if test="password != null">
+                password=#{password},
+            </if>
+            <if test="email != null">
+                email=#{email},
+            </if>
+            <if test="gender != null">
+                gender=#{gender},
+            </if>
+            <if test="birthday != null">
+                birthday=#{birthday},
+            </if>
+            <if test="school != null">
+                school=#{school},
+            </if>
+            <if test="major != null">
+                major=#{major},
+            </if>
+            <if test="stuid != null">
+                stuid=#{stuid}
+            </if>
+        </set>
+        where uid=#{uid}
+    </update>
+
+    <!--初始化角色-->
+    <select id="queryAllRole" resultType="Role">
+        select * from  role where isDel=1
+    </select>
+    <!--分配用户角色-->
+    <update id="updateRoleByUid" parameterType="User">
+        update user set roleid=#{roleid} where uid=#{uid}
+    </update>
+</mapper>
