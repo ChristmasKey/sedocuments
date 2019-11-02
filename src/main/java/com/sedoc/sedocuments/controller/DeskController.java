@@ -27,18 +27,4 @@ public class DeskController {
         return "manager/accessManager";
     }
 
-    /**
-     * 跳转用户管理
-     */
-    @RequestMapping("/toUserManager")
-    public String toUserManager(){
-        return "userManager";
-    }
-    /**
-     * 跳转到模板管理
-     */
-    @RequestMapping("toTemplateManager")
-    public String toTemplateManager(){
-        return "manager/templateManager";
-    }
 }
