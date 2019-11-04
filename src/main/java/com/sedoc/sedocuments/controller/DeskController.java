@@ -29,7 +29,6 @@ public class DeskController {
 
     /**
      * 跳转用户管理
-     * @return
      */
     @RequestMapping("/toUserManager")
     public String toUserManager(){
