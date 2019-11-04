@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sedoc.sedocuments.dao.RoleManagerMapper">
+    <!--汪松 角色管理-->
+    <!--初始化角色-->
+    <select id="QueryAllRoleAndByRoleName" parameterType="Role" resultType="Role">
+        select * from role
+        <where>
+            <if test="rolename!=null and rolename!=''">
+                and rolename like concat("%",#{rolename},"%")
+            </if>
+            <if test="isDel!=null and rolename!=''">
+                and isDel=#{isDel}
+            </if>
+        </where>
+    </select>
+
+    <!--添加角色-->
+    <insert id="addRole" parameterType="Role">
+        insert into role(rolename,roledesc,isDel)values(#{rolename},#{roledesc},#{isDel})
+    </insert>
+
+    <!--删除角色-->
+    <update id="deleteRoleById" parameterType="int">
+        update role set isDel=0 where roleid=#{roleid}
+    </update>
+    <!--根据角色id修改角色信息-->
+    <update id="updateRoleByRoleId" parameterType="Role">
+        update role set rolename=#{rolename},roledesc=#{roledesc},isDel=#{isDel} where roleid=#{roleid}
+    </update>
+
+    <!--查询所有权限数-->
+    <select id="queryAllAccessTree" resultType="Access">
+        select * from access where isDel=1
+    </select>
+
+    <!--根据角色id查询角色拥有的权限-->
+    <select id="queryRoleAccessIdsByRid" resultType="Access">
+        select accessid from role_access where roleid=#{roleid}
+    </select>
+
+    <!--删除已存在角色权限-->
+    <delete id="deleteRoleAccessByRoleId">
+        delete from role_access where roleid=#{roleid}
+    </delete>
+    <!--保存角色和权限的关系-->
+    <insert id="saveRoleIdAndAccessId">
+        insert into role_access(roleid,accessid)values(#{roleid},#{accessid})
+    </insert>
+</mapper>

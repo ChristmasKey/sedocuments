@@ -42,4 +42,13 @@ public class DeskController {
     public String toTemplateManager(){
         return "manager/templateManager";
     }
+
+    /**
+     * 跳转角色管理
+     * @return
+     */
+    @RequestMapping("toRoleManager")
+    public String toRoleManager(){
+        return "manager/roleManager";
+    }
 }
