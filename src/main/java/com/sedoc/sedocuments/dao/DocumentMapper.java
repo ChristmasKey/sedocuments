@@ -14,4 +14,13 @@ import java.util.List;
 public interface DocumentMapper {
     List<Document> queryAllDocument(Document document);
 
+    void insertSelective(Document document);
+
+    void updateByPrimaryKeySelective(Document document);
+
+    void deleteDocumentByProjectId(Integer projectid);
+
+    Integer queryDocnumberByProjectId(Integer projectid);
+
+    Integer queryMaxDoctype(Integer projectid);
 }

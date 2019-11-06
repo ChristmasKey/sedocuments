@@ -103,7 +103,7 @@
             <div class="layui-inline">
                 <label class="layui-form-label">用户密码:</label>
                 <div class="layui-input-inline">
-                    <input type="password" name="password" layui-verify="required" placeholder="请输入用户密码(6-18位)"
+                    <input type="password" name="password" lay-verify="required" placeholder="请输入用户密码(6-18位)"
                            autocomplete="off"
                            class="layui-input">
                 </div>

@@ -13,4 +13,14 @@ import java.util.List;
 @Repository
 public interface ProjectMapper {
     List<Project> queryAllProject(Project project);
+
+    void insertSelective(Project project);
+
+    void updateByPrimaryKeySelective(Project project);
+
+    void deleteByPrimaryKey(Integer projectid);
+
+    void updateDocnumber(Integer projectid);
+
+    void updateDocnumberMinus(Integer projectid);
 }
