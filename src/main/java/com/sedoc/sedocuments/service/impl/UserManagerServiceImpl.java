@@ -72,4 +72,14 @@ public class UserManagerServiceImpl implements UserManagerService {
         Integer roleid = userVo.getRoleid();
         userManagerMapper.updateRoleByUid(uid,roleid);
     }
+
+    /**
+     * 验证用户名（phone）为账号是否存在
+     * @param phone
+     * @return
+     */
+    @Override
+    public int isExistPhone(String phone) {
+        return userManagerMapper.isExistPhone(phone);
+    }
 }

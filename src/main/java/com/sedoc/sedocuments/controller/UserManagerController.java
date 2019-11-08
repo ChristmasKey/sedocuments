@@ -125,4 +125,20 @@ public class UserManagerController {
             return ResultObj.DISPATCH_ERROR;
         }
     }
+
+    /**
+     * 判断账号是否重复
+     * @param userVo
+     * @return
+     */
+    @RequestMapping("isExistPhone")
+    public ResultObj isExistPhone(UserVo userVo){
+        System.out.println("联系方式："+userVo.getPhone());
+        int result=userManagerService.isExistPhone(userVo.getPhone());
+        ResultObj resultObj=null;
+        if (result>0){
+            resultObj=ResultObj.ISEXISTPPHONE;
+        }
+        return resultObj;
+    }
 }

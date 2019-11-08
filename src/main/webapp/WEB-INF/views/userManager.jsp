@@ -54,7 +54,8 @@
                 class="layui-icon layui-icon-add-1"></span>添加用户
         </button>
         <button type="button" class="layui-btn layui-btn-danger layui-btn-sm" lay-event="deleteBatch">
-            <span class="layui-icon layui-icon-delete"></span>批量删除</button>
+            <span class="layui-icon layui-icon-delete"></span>批量删除
+        </button>
     </div>
     <div id="userRowBar" style="display: none;">
         <button type="button" lay-event="update" class="layui-btn layui-btn-sm"><span
@@ -95,7 +96,8 @@
             <div class="layui-inline">
                 <label class="layui-form-label">联系电话:</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="phone" lay-verify="required|phone" maxlength="11" placeholder="请输入用户联系电话"
+                    <input type="text" name="phone" id="phone" lay-verify="required|phone" lay-event="isExist"
+                           maxlength="11" placeholder="请输入用户联系电话"
                            autocomplete="off"
                            class="layui-input">
                 </div>
@@ -176,7 +178,6 @@
 <script type="text/javascript" src="${ctx}/resources/layui/layui.js"></script>
 <script type="text/javascript">
     var tableIns;
-    //var keyword=$('#name').val();
     layui.extend({
         dtree: '${ctx}/resources/layui_ext/dtree/dtree'   // {/}的意思即代表采用自有路径，即不跟随 base 路径
     }).use(['jquery', 'form', 'table', 'layer', 'dtree'], function () {
@@ -224,9 +225,9 @@
         });
         //模糊查询
         form.on("submit(doSearch)", function (data) {
-            var params=$("#username").val();
+            var params = $("#username").val();
             tableIns.reload({
-                url:'${ctx}/userManager/findUserList?'+params,
+                url: '${ctx}/userManager/findUserList?' + params,
                 where: data.field,
                 page: {
                     curr: 1
@@ -323,27 +324,28 @@
         }
 
         //批量删除
-        function deleteBatch(){
+        function deleteBatch() {
             //得到选中的数据行
             var checkStatus = table.checkStatus('userTable');
             var data = checkStatus.data;
-            var params="";
-            $.each(data,function(i,item){
-                if(i==0){
-                    params+="ids="+item.uid;
-                }else{
-                    params+="&ids="+item.uid;
+            var params = "";
+            $.each(data, function (i, item) {
+                if (i == 0) {
+                    params += "ids=" + item.uid;
+                } else {
+                    params += "&ids=" + item.uid;
                 }
             });
-            layer.confirm('真的删除选中的这些用户吗', function(index){
+            layer.confirm('真的删除选中的这些用户吗', function (index) {
                 //向服务端发送删除指令
-                $.post("${ctx}/userManager/deleteBatchUser",params,function(res){
+                $.post("${ctx}/userManager/deleteBatchUser", params, function (res) {
                     layer.msg(res.msg);
                     //刷新数据 表格
                     tableIns.reload();
                 })
             });
         }
+
         //打开分配角色的弹出层
         function selectRole(data) {
             mainIndex = layer.open({
@@ -390,6 +392,22 @@
                 ]]
             });
         }
+        //验证重复账号
+        $("#phone").blur(function () {
+            var isphone = document.getElementById("phone");
+            var datas={"phone":isphone.value}
+            $.ajax({
+                type: "POST",
+                url: '${ctx}/userManager/isExistPhone',
+                data: datas,
+                success: function (res) {
+                    if (res.msg != null) {
+                        layer.msg(res.msg);
+                    }
+                }
+            });
+
+        });
     });
 </script>
 
