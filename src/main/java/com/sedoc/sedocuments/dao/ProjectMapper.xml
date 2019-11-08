@@ -28,4 +28,116 @@
             </if>
         </where>
     </select>
+
+    <!--添加项目-->
+    <insert id="insertSelective" parameterType="Project">
+        <selectKey resultType="Integer" order="AFTER" keyProperty="projectid">
+            select LAST_INSERT_ID()
+        </selectKey>
+        insert into project
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="projectid!=null">
+                projectid,
+            </if>
+            <if test="proname!=null and proname!=''">
+                proname,
+            </if>
+            <if test="createtime!=null">
+                createtime,
+            </if>
+            <if test="remark!=null and remark!=''">
+                remark,
+            </if>
+            <if test="docnumber!=null">
+                docnumber,
+            </if>
+            <if test="isTemplate!=null">
+                isTemplate,
+            </if>
+            <if test="isOfficial!=null">
+                isOfficial,
+            </if>
+            <if test="uid!=null">
+                uid,
+            </if>
+            <if test="isDel!=null">
+                isDel,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="projectid!=null">
+                #{projectid,jdbcType=INTEGER},
+            </if>
+            <if test="proname!=null and proname!=''">
+                #{proname,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime!=null">
+                #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remark!=null and remark!=''">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="docnumber!=null">
+                #{docnumber,jdbcType=INTEGER},
+            </if>
+            <if test="isTemplate!=null">
+                #{isTemplate,jdbcType=INTEGER},
+            </if>
+            <if test="isOfficial!=null">
+                #{isOfficial,jdbcType=INTEGER},
+            </if>
+            <if test="uid!=null">
+                #{uid,jdbcType=INTEGER},
+            </if>
+            <if test="isDel!=null">
+                #{isDel,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    
+    <!--修改项目信息-->
+    <update id="updateByPrimaryKeySelective" parameterType="Project">
+        update project
+        <set>
+            <if test="proname!=null and proname!=''">
+                proname=#{proname,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime!=null">
+                createtime=#{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remark!=null and remark!=''">
+                remark=#{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="docnumber!=null">
+                docnumber=#{docnumber,jdbcType=INTEGER},
+            </if>
+            <if test="isTemplate!=null">
+                isTemplate=#{isTemplate,jdbcType=INTEGER},
+            </if>
+            <if test="isOfficial!=null">
+                isOfficial=#{isOfficial,jdbcType=INTEGER},
+            </if>
+            <if test="uid!=null">
+                uid=#{uid,jdbcType=INTEGER},
+            </if>
+            <if test="isDel!=null">
+                isDel=#{isDel,jdbcType=INTEGER},
+            </if>
+        </set>
+        where projectid=#{projectid,jdbcType=INTEGER}
+    </update>
+    
+    <!--删除项目-->
+    <update id="deleteByPrimaryKey" parameterType="Integer">
+        update project set isDel=0 where projectid=#{projectid}
+    </update>
+
+    <!--更新项目的文档数自动加1-->
+    <update id="updateDocnumber" parameterType="Integer">
+        update project set docnumber=docnumber+1 where projectid=#{projectid}
+    </update>
+    <!--更新项目的文档数自动减1-->
+    <update id="updateDocnumberMinus" parameterType="Integer">
+        update project set docnumber=docnumber-1 where projectid=#{projectid}
+    </update>
 </mapper>

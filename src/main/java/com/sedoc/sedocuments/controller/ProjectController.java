@@ -3,18 +3,19 @@ package com.sedoc.sedocuments.controller;
 import com.sedoc.sedocuments.constast.SysConstast;
 import com.sedoc.sedocuments.model.Document;
 import com.sedoc.sedocuments.model.Project;
+import com.sedoc.sedocuments.model.User;
 import com.sedoc.sedocuments.service.DocumentService;
 import com.sedoc.sedocuments.service.ProjectService;
-import com.sedoc.sedocuments.utils.DataGridView;
-import com.sedoc.sedocuments.utils.DocNode;
-import com.sedoc.sedocuments.utils.ProjectNode;
+import com.sedoc.sedocuments.utils.*;
 import com.sedoc.sedocuments.vo.DocumentVo;
 import com.sedoc.sedocuments.vo.ProjectVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,17 +34,22 @@ public class ProjectController {
     @Autowired
     private DocumentService documentService;
 
+    /**
+     *  加载项目树
+     */
     @RequestMapping("loadProjectManagerTreeJson")
     public DataGridView loadProjectManagerTreeJson(ProjectVo projectVo){
         projectVo.setIsDel(SysConstast.AVAILABLE_TRUE);//设置查询条件：未删除
-        projectVo.setIsTemplate(SysConstast.CODE_ZERO);//设置查询条件：是模板
-        projectVo.setIsOfficial(SysConstast.CODE_ZERO);//设置查询条件：属官方
+        User user=(User)WebUtils.getHttpSession().getAttribute("user");
+        projectVo.setUid(user.getUid());
+//        projectVo.setIsTemplate(SysConstast.CODE_ZERO);//设置查询条件：是模板
+//        projectVo.setIsOfficial(SysConstast.CODE_ZERO);//设置查询条件：属官方
         List<Project> projects=projectService.queryAllProjectForList(projectVo);
         List<ProjectNode> proNodes=new ArrayList<>();
         for(Project project:projects){
             Integer id=project.getProjectid();
             String title=project.getProname();
-            String createtime=project.getCreatetime().toString();
+            String createtime=new SimpleDateFormat("yyyy-MM-dd").format(project.getCreatetime());
             String remark=project.getRemark();
             Integer docnumber=project.getDocnumber();
             Integer isTemplate=project.getIsTemplate();
@@ -64,5 +70,126 @@ public class ProjectController {
             proNodes.add(proNode);
         }
         return new DataGridView(proNodes);
+    }
+
+    /**
+     *  添加项目
+     */
+    @RequestMapping("addProject")
+    public ResultObj addProject(ProjectVo projectVo){
+        projectVo.setCreatetime(new Date());
+        projectVo.setDocnumber(1);
+        User user=(User)WebUtils.getHttpSession().getAttribute("user");
+        projectVo.setUid(user.getUid());
+        projectVo.setIsDel(SysConstast.AVAILABLE_TRUE);
+        try{
+            projectService.addProject(projectVo);
+            //添加样本文档（子节点）
+            DocumentVo documentVo=new DocumentVo();
+            documentVo.setProjectid(projectVo.getProjectid());
+            documentVo.setDoctitle("可行性研究报告");
+            documentVo.setDoctype(1);
+            documentVo.setIsDel(SysConstast.AVAILABLE_TRUE);
+            documentService.addDocument(documentVo);
+            return ResultObj.ADD_SUCCESS;
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResultObj.ADD_ERROR;
+        }
+    }
+
+    /**
+     *  修改项目信息
+     */
+    @RequestMapping("updateProject")
+    public ResultObj updateProject(ProjectVo projectVo){
+        try{
+            projectService.updateProject(projectVo);
+            return ResultObj.UPDATE_SUCCESS;
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResultObj.UPDATE_ERROR;
+        }
+    }
+
+    /**
+     *  删除项目
+     */
+    @RequestMapping("deleteProject")
+    public ResultObj deleteProject(ProjectVo projectVo){
+        try{
+            projectService.deleteProject(projectVo);
+            documentService.deleteDocumentByProjectId(projectVo);
+            return ResultObj.DELETE_SUCCESS;
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResultObj.DELETE_ERROR;
+        }
+    }
+
+    /**
+     * 根据projectid判断当前项目中有没有文档
+     * 有 返回code>=0
+     * 没有 返回code<0
+     */
+    @RequestMapping("checkDocnumber")
+    public ResultObj checkDocnumber(ProjectVo projectVo){
+        Integer count=documentService.queryDocnumberByProjectId(projectVo.getProjectid());
+        if (count>1){
+            return ResultObj.STATUS_TRUE;
+        }else{
+            return ResultObj.STATUS_FALSE;
+        }
+    }
+
+    /**
+     * 删除文档
+     */
+    @RequestMapping("deleteDocument")
+    public ResultObj deleteDocument(DocumentVo documentVo){
+        try{
+            documentVo.setIsDel(SysConstast.AVAILABLE_FALSE);
+            documentService.updateDocument(documentVo);
+            projectService.updateDocnumberMinus(documentVo.getProjectid());
+            return ResultObj.DELETE_SUCCESS;
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResultObj.DELETE_ERROR;
+        }
+    }
+
+    /**
+     * 文档重命名
+     */
+    @RequestMapping("renameDocument")
+    public ResultObj renameDocument(DocumentVo documentVo){
+        try {
+            documentService.updateDocument(documentVo);
+            return ResultObj.UPDATE_SUCCESS;
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResultObj.UPDATE_ERROR;
+        }
+    }
+
+    /**
+     * 根据projectid添加文档
+     */
+    @RequestMapping("addDocumentByProjectId")
+    public ResultObj addDocumentByProjectId(DocumentVo documentVo){
+        try{
+            //项目docnumber+1
+            projectService.updateDocnumber(documentVo.getProjectid());
+            //文档的doctype为查最大+1
+            Integer doctype=documentService.queryMaxDoctype(documentVo.getProjectid());
+            documentVo.setDoctype(doctype+1);
+            documentVo.setIsDel(SysConstast.AVAILABLE_TRUE);
+            //插入数据表
+            documentService.addDocument(documentVo);
+            return ResultObj.ADD_SUCCESS;
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResultObj.ADD_ERROR;
+        }
     }
 }

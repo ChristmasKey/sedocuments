@@ -14,8 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
-import sun.misc.Request;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 /**
@@ -50,12 +50,24 @@ public class UserManagerServiceImpl implements UserManagerService {
 
     @Override
     public int addUser(UserVo userVo) {
+        try{
+            String pwd=DigestUtils.md5DigestAsHex(userVo.getPassword().getBytes(StandardCharsets.UTF_8));
+            userVo.setPassword(pwd);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         int result=userManagerMapper.addUser(userVo);
         return result;
     }
 
     @Override
     public int updateUserById(UserVo userVo) {
+        try{
+            String pwd=DigestUtils.md5DigestAsHex(userVo.getPassword().getBytes(StandardCharsets.UTF_8));
+            userVo.setPassword(pwd);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return userManagerMapper.updateUserById(userVo);
     }
 
