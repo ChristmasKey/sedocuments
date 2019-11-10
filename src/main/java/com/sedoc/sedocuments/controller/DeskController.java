@@ -50,4 +50,12 @@ public class DeskController {
     public String toRoleManager(){
         return "manager/roleManager";
     }
+
+    /**
+     * 跳转到用户的新建项目页面
+     */
+    @RequestMapping("toCreateProject")
+    public String toCreateProject(){
+        return "user/createProject";
+    }
 }

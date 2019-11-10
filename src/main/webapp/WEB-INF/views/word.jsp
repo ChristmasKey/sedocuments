@@ -11,7 +11,6 @@
     <title>文档编辑</title>
 </head>
 <body>
-<input id="SaveBtn" class="btn btn-primary" type="button" value="保存文档" onclick="">
 <div style="width: auto;height: 700px;">${pageoffice}</div>
 </body>
 </html>

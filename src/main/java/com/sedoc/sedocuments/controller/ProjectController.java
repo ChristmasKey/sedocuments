@@ -88,7 +88,7 @@ public class ProjectController {
             DocumentVo documentVo=new DocumentVo();
             documentVo.setProjectid(projectVo.getProjectid());
             documentVo.setDoctitle("可行性研究报告");
-            documentVo.setDoctype(1);
+            documentVo.setDoctype(0);
             documentVo.setIsDel(SysConstast.AVAILABLE_TRUE);
             documentService.addDocument(documentVo);
             return ResultObj.ADD_SUCCESS;
@@ -181,8 +181,8 @@ public class ProjectController {
             //项目docnumber+1
             projectService.updateDocnumber(documentVo.getProjectid());
             //文档的doctype为查最大+1
-            Integer doctype=documentService.queryMaxDoctype(documentVo.getProjectid());
-            documentVo.setDoctype(doctype+1);
+//            Integer doctype=documentService.queryMaxDoctype(documentVo.getProjectid());
+            documentVo.setDoctype(0);
             documentVo.setIsDel(SysConstast.AVAILABLE_TRUE);
             //插入数据表
             documentService.addDocument(documentVo);
@@ -191,5 +191,98 @@ public class ProjectController {
             e.printStackTrace();
             return ResultObj.ADD_ERROR;
         }
+    }
+
+    /**
+     * 创建项目
+     */
+    @RequestMapping("createProject")
+    public ResultObj createProject(ProjectVo projectVo){
+        projectVo.setCreatetime(new Date());
+        projectVo.setDocnumber(0);
+        projectVo.setIsTemplate(1);
+        projectVo.setIsOfficial(1);
+        User user=(User)WebUtils.getHttpSession().getAttribute("user");
+        projectVo.setUid(user.getUid());
+        projectVo.setIsDel(SysConstast.AVAILABLE_TRUE);
+        try{
+            projectService.addProject(projectVo);
+            WebUtils.getHttpSession().setAttribute("createprojectid",projectVo.getProjectid());
+            return ResultObj.ADD_SUCCESS;
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResultObj.ADD_ERROR;
+        }
+    }
+
+    /**
+     * 根据前端传过来的projectid查询文档，
+     * 并结合createprojectid对取到的数据进行编辑
+     * 重新插入表中
+     */
+    @RequestMapping("addDocumentByDocument")
+    public ResultObj addDocumentByDocument(Integer projectid){
+        Integer createprojectid=(Integer)WebUtils.getHttpSession().getAttribute("createprojectid");
+        try {
+            if(projectid==0){
+                DocumentVo documentVo=new DocumentVo();
+                documentVo.setDoctitle("可行性研究报告");
+                documentVo.setDoctype(0);
+                documentVo.setProjectid(createprojectid);
+                documentVo.setIsDel(SysConstast.AVAILABLE_TRUE);
+                documentService.addDocument(documentVo);
+                projectService.updateDocnumber(createprojectid);
+            }else {
+                DocumentVo documentVo=new DocumentVo();
+                documentVo.setProjectid(projectid);
+                documentVo.setIsDel(SysConstast.AVAILABLE_TRUE);
+                List<Document> documents=documentService.queryAllDocumentForList(documentVo);
+                for(Document document:documents){
+                    DocumentVo docVo=new DocumentVo();
+                    docVo.setDoctitle(document.getDoctitle());
+                    docVo.setDoctype(document.getDocid());
+                    docVo.setProjectid(createprojectid);
+                    docVo.setIsDel(SysConstast.AVAILABLE_TRUE);
+                    documentService.addDocument(docVo);
+                    projectService.updateDocnumber(createprojectid);
+                }
+            }
+            return ResultObj.ADD_SUCCESS;
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResultObj.ADD_ERROR;
+        }
+    }
+
+    @RequestMapping("loadNewProjectTreeJson")
+    public DataGridView loadNewProjectTreeJson(ProjectVo projectVo){
+        projectVo.setProjectid((Integer)WebUtils.getHttpSession().getAttribute("createprojectid"));
+        projectVo.setIsDel(SysConstast.AVAILABLE_TRUE);
+        List<Project> projects=projectService.queryAllProjectForList(projectVo);
+        List<ProjectNode> proNodes=new ArrayList<>();
+        for(Project project:projects){
+            Integer id=project.getProjectid();
+            String title=project.getProname();
+            String createtime=new SimpleDateFormat("yyyy-MM-dd").format(project.getCreatetime());
+            String remark=project.getRemark();
+            Integer docnumber=project.getDocnumber();
+            Integer isTemplate=project.getIsTemplate();
+            Integer isOfficial=project.getIsOfficial();
+            Integer uid=project.getUid();
+            ProjectNode proNode=new ProjectNode(id,title,createtime,remark,docnumber,isTemplate,isOfficial,uid);
+            //根据id查询document,并把结果放到叶子（文档）节点中
+            DocumentVo documentVo = new DocumentVo();
+            documentVo.setIsDel(SysConstast.AVAILABLE_TRUE);//设置查询条件：未删除
+            documentVo.setProjectid(id);//设置查询条件：父节点
+            List<Document> documents=documentService.queryAllDocumentForList(documentVo);
+            for (Document document:documents){
+                String docid="doc"+document.getDocid();
+                String doctitle=document.getDoctitle();
+                Integer doctype=document.getDoctype();
+                proNode.getChildren().add(new DocNode(docid,id,doctitle,doctype));
+            }
+            proNodes.add(proNode);
+        }
+        return new DataGridView(proNodes);
     }
 }

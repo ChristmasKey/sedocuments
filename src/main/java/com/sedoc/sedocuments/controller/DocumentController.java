@@ -52,4 +52,24 @@ public class DocumentController {
         fs.close();
     }
 
+    @RequestMapping("openNewDoc")
+    public String openNewDoc(HttpServletRequest request,Integer docid,Integer doctype,Map<String,Object> map){
+        PageOfficeCtrl poCtrl=new PageOfficeCtrl(request);
+        poCtrl.setServerPage("/SEDocument/poserver.zz");
+        poCtrl.setCustomToolbar(false);
+        poCtrl.setSaveFilePage("/SEDocument/document/saveFile?docid="+docid);
+        File file=new File(request.getSession().getServletContext().getRealPath("docLib/")+"\\document"+docid+".docx");
+        if (!file.exists()){
+            File file1=new File(request.getSession().getServletContext().getRealPath("docLib/")+"\\document"+doctype+".docx");
+            if (!file1.exists()){
+                poCtrl.webOpen(request.getContextPath()+"/docLib/test.docx", OpenModeType.docNormalEdit,"雨木林风");
+            }else{
+                poCtrl.webOpen(request.getContextPath()+"/docLib/document"+doctype+".docx",OpenModeType.docNormalEdit,"雨木林风");
+            }
+        }else{
+            poCtrl.webOpen(request.getContextPath()+"/docLib/document"+docid+".docx",OpenModeType.docNormalEdit,"雨木林风");
+        }
+        map.put("pageoffice",poCtrl.getHtmlCode("pageofficeCtrl1"));
+        return "word";
+    }
 }
