@@ -34,6 +34,10 @@
         </where>
     </select>
 
+    <!--验证用户名（phone）为账号是否存在-->
+    <select id="isExistPhone" resultType="Integer">
+        select count(*) from user where phone=#{phone} and isDel=1
+    </select>
     <!--查询所有用户根据用户名称-->
     <select id="queryAllUserByUsername" resultMap="BaseResultMap">
         select <include refid="Base_Column_List" /> from  user where username like '%'#{username}'%' and isDel=1

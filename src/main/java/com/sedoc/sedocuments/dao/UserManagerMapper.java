@@ -55,4 +55,11 @@ public interface UserManagerMapper {
      * @param roleid
      */
     void updateRoleByUid(@Param("uid")Integer uid,@Param("roleid")Integer roleid);
+
+    /**
+     * 验证用户名（phone）为账号是否存在
+     * @param phone
+     * @return
+     */
+    int isExistPhone(@Param("phone")String phone);
 }
