@@ -49,9 +49,59 @@
 <!--头部工具栏结束-->
 
 <!--右侧内容开始-->
+<div style="float: left;width: 74%;" id="projectDiv">
+    <form class="layui-form layui-form-pane" lay-filter="proFrm" id="proFrm">
+        <div class="layui-form-item">
+            <label class="layui-form-label">创建日期:</label>
+            <div class="layui-input-inline">
+                <input type="text" id="createtime" name="createtime" readonly="readonly" class="layui-input">
+            </div>
+            <label class="layui-form-label">文档数量:</label>
+            <label class="layui-input-inline">
+                <input type="text" id="docnumber" name="docnumber" readonly="readonly" class="layui-input">
+            </label>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">备注内容:</label>
+            <div class="layui-input-block">
+                <textarea id="remark" name="remark" readonly="readonly" class="layui-textarea"></textarea>
+            </div>
+        </div>
+    </form>
+</div>
 <!--右侧内容结束-->
 
 <!--模板项目添加弹出框开始-->
+<div style="display: none;padding: 20px;" id="docAddDiv">
+    <form class="layui-form layui-form-pane" lay-filter="docFrm" id="docFrm">
+        <div class="layui-form-item">
+            <label class="layui-form-label">文档名称:</label>
+            <div class="layui-input-block">
+                <input type="hidden" name="projectid">
+                <input type="text" name="doctitle" placeholder="请输入文档名称" lay-verify="required" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item" style="text-align: center;">
+            <button type="button" class="layui-btn layui-btn-normal layui-btn-sm layui-icon layui-icon-release" lay-filter="doAddDoc" lay-submit="">提交</button>
+            <button type="reset" class="layui-btn layui-btn-warm layui-btn-sm layui-icon layui-icon-refresh">重置</button>
+        </div>
+    </form>
+</div>
+<div style="display: none;padding: 20px;" id="renameDiv">
+    <form class="layui-form layui-form-pane" lay-filter="nameFrm" id="nameFrm">
+        <div class="layui-form-item">
+            <label class="layui-form-label">文档名称:</label>
+            <div class="layui-input-block">
+                <input type="hidden" name="docid">
+                <input type="text" name="doctitle" placeholder="请输入文档名称" lay-verify="required" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item" style="text-align: center;">
+            <button type="button" class="layui-btn layui-btn-normal layui-btn-sm layui-icon layui-icon-release" lay-filter="doRename" lay-submit="">提交</button>
+            <button type="reset" class="layui-btn layui-btn-warm layui-btn-sm layui-icon layui-icon-refresh">重置</button>
+        </div>
+    </form>
+</div>
 <div style="display: none;padding: 20px;" id="saveOrUpdateDiv">
     <form class="layui-form layui-form-pane" lay-filter="dataFrm" id="dataFrm">
         <div class="layui-form-item">
@@ -88,7 +138,8 @@
     </form>
 </div>
 <!--模板项目添加弹出框结束-->
-
+<script type="text/javascript" src="${ctx}/jquery.min.js"></script>
+<script type="text/javascript" src="${ctx}/pageoffice.js" id="po_js_main"></script>
 <script type="text/javascript" src="${ctx}/resources/layui/layui.js"></script>
 <script type="text/javascript">
     layui.extend({
@@ -103,6 +154,7 @@
             elem:'#templateTree',
             url:'${ctx}/project/loadProjectManagerTreeJson',
             scroll:'#treeDiv',
+            accordion:true,
             dataStyle:'layuiStyle',
             response:{message:"msg",statusCode:0},
             record:true,
@@ -127,25 +179,52 @@
                 {
                     toolbarId:"projectDel",icon:"dtree-icon-qrcode1",title:"删除此项目及文档",
                     handler:function (node,$div) {
-                        layer.msg(this.title);
+                        // layer.msg(this.title);
+                        layer.confirm('确定删除【'+node.context+'】这个项目吗',function (index) {
+                            $.post("${ctx}/project/deleteProject",{projectid:node.nodeId},function (res) {
+                                layer.msg(res.msg);
+                                tempTree.reload();
+                            })
+                        });
                     }
                 },
                 {
                     toolbarId:"documentAdd",icon:"dtree-icon-add-circle",title:"添加项目文档",
                     handler:function (node,$div) {
-                        layer.msg(this.title);
+                        // layer.msg(this.title);
+                        var data={};
+                        data["projectid"]=node.nodeId;
+                        openAddDocument(data);
                     }
                 },
                 {
                     toolbarId:"renameDoc",icon:"layui-icon layui-icon-edit",title:"重命名",
                     handler:function (node, $div) {
-                        layer.msg(this.title);
+                        // layer.msg(this.title);
+                        var data={};
+                        data["docid"]=node.nodeId.substring(3,node.nodeId.length);
+                        data["doctitle"]=node.context;
+                        openRenameDocument(data);
+
                     }
                 },
                 {
                     toolbarId:"documentDel",icon:"layui-icon layui-icon-delete",title:"删除此文档",
                     handler:function (node, $div) {
-                        layer.msg(this.title);
+                        // layer.msg(this.title);
+                        $.post('${ctx}/project/checkDocnumber',{projectid:node.parentId},function (obj) {
+                            if (obj.code >= 0) {
+                                var docid=node.nodeId.substring(3,node.nodeId.length);
+                                layer.confirm('确定删除【'+node.context+'】这个文档吗',function (index) {
+                                    $.post("${ctx}/project/deleteDocument",{docid:docid,projectid:node.parentId},function (res) {
+                                        layer.msg(res.msg);
+                                        tempTree.reload();
+                                    })
+                                });
+                            }else{
+                                layer.msg("项目中至少保留一份文档 ");
+                            }
+                        });
                     }
                 }
             ],
@@ -166,10 +245,23 @@
 
         //监听节点的单击事件
         dtree.on("node(templateTree)",function (obj) {
-            /*if(obj.param.leaf!==true){
-                var recordData=JSON.parse(obj.param.recordData);
-                layer.msg(recordData.createtime);
-            }*/
+            if (!obj.param.leaf) {
+                var $div=obj.dom;
+                tempTree.clickSpread($div);
+                var prodata=JSON.parse(obj.param.recordData);
+                console.log(prodata);
+                var data={};
+                data["createtime"]=prodata.createtime;
+                data["docnumber"]=prodata.docnumber;
+                data["remark"]=prodata.remark;
+                form.val("proFrm",data);
+            }else{
+                // layer.msg("这是叶子节点——文档");
+                //点击节点后，打开文档（待实现）
+                var docid=obj.param.nodeId.substring(3,obj.param.nodeId.length);
+                // layer.msg(docid);
+                POBrowser.openWindowModeless("${ctx}/document/openDoc?docid="+docid,"width=1200px;height=600px;");
+            }
         });
 
         //模糊查询
@@ -197,6 +289,7 @@
                 area:["800px","450px"],
                 success:function (index) {
                     $("#dataFrm")[0].reset();//清空表单数据
+                    url="${ctx}/project/addProject";
                 }
             });
         }
@@ -209,14 +302,68 @@
                 area:['800px','450px'],
                 success:function (index) {
                     form.val("dataFrm",data);
+                    url="${ctx}/project/updateProject"
+                }
+            });
+        }
+        //打开文档添加页面
+        function openAddDocument(data) {
+            mainIndex=layer.open({
+                type:1,
+                title:"添加项目文档",
+                content:$("#docAddDiv"),
+                area:["400px","200px"],
+                success:function (index) {
+                    $("#docFrm")[0].reset();
+                    form.val("docFrm",data);
+                    // $("#proid").value=data.projectid;
+                    url="${ctx}/project/addDocumentByProjectId"
+                }
+            });
+        }
+        //打开文档重命名页面
+        function openRenameDocument(data){
+            mainIndex=layer.open({
+                type:1,
+                title:"重命名",
+                content:$("#renameDiv"),
+                area:['400px','200px'],
+                success:function (index) {
+                    form.val("nameFrm",data);
+                    url="${ctx}/project/renameDocument"
                 }
             });
         }
         //保存
         form.on("submit(doSubmit)",function (obj) {
             var params=$("#dataFrm").serialize();
-            layer.msg(params);
-        })
+            $.post(url,params,function (obj) {
+                layer.msg(obj.msg);
+                layer.close(mainIndex);
+                //刷新树
+                tempTree.reload();
+            })
+        });
+        //保存文档名称
+        form.on("submit(doRename)",function (obj) {
+            var params=$("#nameFrm").serialize();
+            $.post(url,params,function (obj) {
+                layer.msg(obj.msg);
+                layer.close(mainIndex);
+                //刷新树
+                tempTree.reload();
+            })
+        });
+        //添加文档
+        form.on("submit(doAddDoc)",function (obj) {
+            var params=$("#docFrm").serialize();
+            $.post(url,params,function (obj) {
+                layer.msg(obj.msg);
+                layer.close(mainIndex);
+                //刷新树
+                tempTree.reload();
+            })
+        });
     });
 </script>
 </body>

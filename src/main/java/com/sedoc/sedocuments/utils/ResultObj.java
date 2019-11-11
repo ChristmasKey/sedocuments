@@ -60,6 +60,10 @@ public class ResultObj {
      * 状态码-1
      */
     public static final ResultObj STATUS_FALSE=new ResultObj(SysConstast.CODE_ERROR);
+    /**
+     * 判断账号重复
+     */
+    public static final ResultObj ISEXISTPPHONE=new ResultObj(SysConstast.CODE_SUCCESS,SysConstast.ISEXISTPPHONE);
 
     private ResultObj(Integer code,String msg){
         super();

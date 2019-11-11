@@ -59,4 +59,11 @@ public interface UserManagerService {
      * @param userVo
      */
     void updateRoleByUid(UserVo userVo);
+
+    /**
+     * 验证用户名（phone）为账号是否存在
+     * @param phone
+     * @return
+     */
+    int isExistPhone(String phone);
 }

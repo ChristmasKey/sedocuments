@@ -47,6 +47,8 @@ public interface SysConstast {
     String DISPATCH_SUCCESS="分配成功";
     String DISPATCH_ERROR="分配失败";
 
+    String ISEXISTPPHONE="该账户(电话)已存在,请重新填写!";
+
     Integer CODE_SUCCESS=0; //操作成功
     Integer CODE_ERROR=-1;//失败
 

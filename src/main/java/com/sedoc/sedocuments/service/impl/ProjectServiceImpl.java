@@ -21,4 +21,31 @@ public class ProjectServiceImpl implements ProjectService {
     public List<Project> queryAllProjectForList(ProjectVo projectVo) {
         return projectMapper.queryAllProject(projectVo);
     }
+
+    @Override
+    public void addProject(ProjectVo projectVo) {
+        projectMapper.insertSelective(projectVo);
+    }
+
+    @Override
+    public void updateProject(ProjectVo projectVo) {
+        projectMapper.updateByPrimaryKeySelective(projectVo);
+    }
+
+    @Override
+    public void deleteProject(ProjectVo projectVo) {
+        projectMapper.deleteByPrimaryKey(projectVo.getProjectid());
+    }
+
+    @Override
+    public void updateDocnumber(Integer projectid) {
+        projectMapper.updateDocnumber(projectid);
+    }
+
+    @Override
+    public void updateDocnumberMinus(Integer projectid) {
+        projectMapper.updateDocnumberMinus(projectid);
+    }
+
+
 }
