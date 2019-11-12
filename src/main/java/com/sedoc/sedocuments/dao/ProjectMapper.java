@@ -1,6 +1,7 @@
 package com.sedoc.sedocuments.dao;
 
 import com.sedoc.sedocuments.model.Project;
+import com.sedoc.sedocuments.vo.ProjectVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -23,4 +24,6 @@ public interface ProjectMapper {
     void updateDocnumber(Integer projectid);
 
     void updateDocnumberMinus(Integer projectid);
+
+    List<Project> queryTempProjects(ProjectVo projectVo);
 }

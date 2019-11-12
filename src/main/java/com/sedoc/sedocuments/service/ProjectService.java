@@ -1,6 +1,7 @@
 package com.sedoc.sedocuments.service;
 
 import com.sedoc.sedocuments.model.Project;
+import com.sedoc.sedocuments.utils.DataGridView;
 import com.sedoc.sedocuments.vo.ProjectVo;
 
 import java.util.List;
@@ -41,4 +42,6 @@ public interface ProjectService {
      * 更新项目的文档数自动减1
      */
     void updateDocnumberMinus(Integer projectid);
+
+    DataGridView queryTempProjects(ProjectVo projectVo);
 }

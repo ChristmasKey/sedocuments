@@ -140,4 +140,30 @@
     <update id="updateDocnumberMinus" parameterType="Integer">
         update project set docnumber=docnumber-1 where projectid=#{projectid}
     </update>
+
+    <!--首页的模糊查询-->
+    <select id="queryTempProjects" resultType="Project">
+        select * from project
+        <where>
+            <if test="proname!=null and proname!=''">
+                and proname like concat("%",#{proname},"%")
+            </if>
+            <if test="startTime!=null">
+                and createtime>=#{startTime}
+            </if>
+            <if test="endTime!=null">
+                and createtime<![CDATA[<=]]>#{endTime}
+            </if>
+            <if test="isTemplate!=null">
+                and isTemplate=#{isTemplate}
+            </if>
+            <if test="isOfficial!=null">
+                and isOfficial=#{isOfficial}
+            </if>
+            <if test="isDel!=null">
+                and isDel=#{isDel}
+            </if>
+        </where>
+        order by createtime desc
+    </select>
 </mapper>

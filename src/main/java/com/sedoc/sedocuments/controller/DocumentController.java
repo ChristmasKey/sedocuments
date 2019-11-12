@@ -72,4 +72,14 @@ public class DocumentController {
         map.put("pageoffice",poCtrl.getHtmlCode("pageofficeCtrl1"));
         return "word";
     }
+
+    @RequestMapping("openTemplate")
+    public String openTemplate(HttpServletRequest request,Integer docid,Map<String,Object> map){
+        PageOfficeCtrl poCtrl=new PageOfficeCtrl(request);
+        poCtrl.setServerPage("/SEDocument/poserver.zz");
+        poCtrl.setCustomToolbar(false);
+        poCtrl.webOpen(request.getContextPath()+"/docLib/document"+docid+".docx",OpenModeType.docReadOnly,"雨木林风");
+        map.put("pageoffice",poCtrl.getHtmlCode("pageofficeCtrl1"));
+        return "word";
+    }
 }
