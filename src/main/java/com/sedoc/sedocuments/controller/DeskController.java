@@ -58,4 +58,12 @@ public class DeskController {
     public String toCreateProject(){
         return "user/createProject";
     }
+
+    /**
+     * 跳转到用户的我的项目页面
+     */
+    @RequestMapping("toMyProjects")
+    public String toMyProjects(){
+        return "user/myProjects";
+    }
 }
