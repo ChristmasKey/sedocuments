@@ -6,6 +6,8 @@ public class Role {
     private String rolename;
     private String roledesc;
     private Integer isDel;
+    //0：未选中状态
+    private String checked="0";
 
     public Integer getRoleid() {
         return roleid;
@@ -37,5 +39,13 @@ public class Role {
 
     public void setIsDel(Integer isDel) {
         this.isDel = isDel;
+    }
+
+    public String getChecked() {
+        return checked;
+    }
+
+    public void setChecked(String checked) {
+        this.checked = checked;
     }
 }

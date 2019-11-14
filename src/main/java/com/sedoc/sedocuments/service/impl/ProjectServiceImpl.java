@@ -57,5 +57,15 @@ public class ProjectServiceImpl implements ProjectService {
         return new DataGridView(page.getTotal(),data);
     }
 
+    @Override
+    public List<Project> selectProjectByUid(Integer uid) {
+        return projectMapper.selectProjectByUid(uid);
+    }
+
+    @Override
+    public void restoreProByProId(Integer projectid) {
+        projectMapper.restoreProByProId(projectid);
+    }
+
 
 }

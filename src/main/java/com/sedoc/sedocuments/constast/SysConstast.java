@@ -35,6 +35,9 @@ public interface SysConstast {
     String ADD_SUCCESS="添加成功";
     String ADD_ERROR="添加失败";
 
+    String RESTORE_SUCCESS="还原成功";
+    String RESTORE_ERROR="还原失败";
+
     String UPDATE_SUCCESS="更新成功";
     String UPDATE_ERROR="更新失败";
 

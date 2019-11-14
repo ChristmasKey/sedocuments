@@ -385,8 +385,23 @@
                 , where: {
                     uid: data.uid
                 }
+                ,parseData: function(res){ //res 即为原始返回的数据
+                    for(var i=0;i<res.data.length;i++){
+                        if(res.data[i].checked=="1"){
+                            res.data[0]["checked"]=true;
+                        }else{
+                            res.data[0]["checked"]=false;
+                        }
+                    };
+                    return {
+                        "code": res.code, //解析接口状态
+                        "msg": res.msg, //解析提示文本
+                        "count": res.count, //解析数据长度
+                        "data": res.data //解析数据列表
+                    };
+                }
                 , cols: [[
-                    {type: 'radio', align: 'center'}
+                    {type: 'radio',align:'center'}
                     , {field: 'roleid', title: 'ID', align: 'center'}
                     , {field: 'rolename', title: '角色名称', align: 'center'}
                 ]]

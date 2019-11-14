@@ -52,7 +52,7 @@ public interface UserManagerService {
      * @param roleVo
      * @return
      */
-    DataGridView queryAllRole(RoleVo roleVo);
+    List<Role> queryAllRole(RoleVo roleVo);
 
     /**
      * 修改用户的角色
@@ -66,4 +66,12 @@ public interface UserManagerService {
      * @return
      */
     int isExistPhone(String phone);
+
+    /**
+     * 根据用户id查询角色id
+     * @param uid
+     * @param isDel
+     * @return
+     */
+    int selectRoleIdByUid(Integer uid,Integer isDel);
 }

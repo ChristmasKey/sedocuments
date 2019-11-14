@@ -52,6 +52,14 @@ public class ResultObj {
     public static final ResultObj DISPATCH_ERROR=new ResultObj(SysConstast.CODE_ERROR, SysConstast.DISPATCH_ERROR);
 
     /**
+     * 还原成功
+     */
+    public static final  ResultObj RESTORE_SUCCESS=new ResultObj(SysConstast.CODE_SUCCESS,SysConstast.RESTORE_SUCCESS);
+    /**
+     * 还原失败
+     */
+    public static final  ResultObj RESTORE_ERROR=new ResultObj(SysConstast.CODE_ERROR,SysConstast.RESTORE_ERROR);
+    /**
      * 状态码0
      */
     public static final ResultObj STATUS_TRUE=new ResultObj(SysConstast.CODE_SUCCESS);
