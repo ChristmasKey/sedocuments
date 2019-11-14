@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sedoc.sedocuments.dao.MajorMapper">
+    <!--丁佳男-->
+    <!--根据学校查询专业-->
+    <select id="queryMajorBySchoolId" resultType="Major">
+        select distinct t1.* from major t1 inner join school_major t2
+        on(t1.majorid=t2.majorid and t1.isDel=#{isDel})
+        where t2.schoolid=#{schoolid};
+    </select>
+</mapper>

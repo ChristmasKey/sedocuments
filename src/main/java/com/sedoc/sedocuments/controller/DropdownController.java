@@ -1,9 +1,13 @@
 package com.sedoc.sedocuments.controller;
 
 import com.sedoc.sedocuments.constast.SysConstast;
+import com.sedoc.sedocuments.model.Major;
 import com.sedoc.sedocuments.model.Project;
+import com.sedoc.sedocuments.model.School;
 import com.sedoc.sedocuments.model.User;
+import com.sedoc.sedocuments.service.MajorService;
 import com.sedoc.sedocuments.service.ProjectService;
+import com.sedoc.sedocuments.service.SchoolService;
 import com.sedoc.sedocuments.utils.WebUtils;
 import com.sedoc.sedocuments.vo.ProjectVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +27,12 @@ public class DropdownController {
 
     @Autowired
     ProjectService projectService;
+
+    @Autowired
+    SchoolService schoolService;
+
+    @Autowired
+    MajorService majorService;
 
     /**
      * 查询官方模板
@@ -49,5 +59,16 @@ public class DropdownController {
         projectVo.setUid(user.getUid());
         projectVo.setIsDel(SysConstast.AVAILABLE_TRUE);
         return projectService.queryAllProjectForList(projectVo);
+    }
+
+    @RequestMapping("queryAllSchools")
+    public List<School> queryAllSchools(){
+        return schoolService.queryAllSchools();
+    }
+
+    @RequestMapping("queryMajorBySchoolId")
+    public List<Major> queryMajorBySchoolId(School school){
+        school.setIsDel(SysConstast.AVAILABLE_TRUE);
+        return majorService.queryMajorBySchoolId(school);
     }
 }

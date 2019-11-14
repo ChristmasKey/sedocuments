@@ -74,4 +74,12 @@ public class DeskController {
     public String toRecycleBin(){
         return "recycleBin";
     }
+
+    /**
+     * 跳转到注册页面
+     */
+    @RequestMapping("toRegister")
+    public String toRegister(){
+        return "register";
+    }
 }

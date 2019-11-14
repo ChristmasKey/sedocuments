@@ -9,6 +9,8 @@ import com.sedoc.sedocuments.utils.DataGridView;
 import com.sedoc.sedocuments.vo.AccessVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,6 +18,7 @@ import java.util.List;
  * 丁佳男
  */
 @Service
+@Transactional(propagation = Propagation.REQUIRED,readOnly = false)
 public class AccessServiceImpl implements AccessService {
 
     @Autowired

@@ -7,6 +7,8 @@ import com.sedoc.sedocuments.vo.DocumentVo;
 import com.sedoc.sedocuments.vo.ProjectVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -14,6 +16,7 @@ import java.util.List;
  * 丁佳男
  */
 @Service
+@Transactional(propagation = Propagation.REQUIRED,readOnly = false)
 public class DocumentServiceImpl implements DocumentService {
     @Autowired
     private DocumentMapper documentMapper;
