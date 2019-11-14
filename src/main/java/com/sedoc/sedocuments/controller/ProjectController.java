@@ -285,4 +285,48 @@ public class ProjectController {
         }
         return new DataGridView(proNodes);
     }
+
+    /**
+     * 首页的模糊查询
+     */
+    @RequestMapping("queryTemplates")
+    public DataGridView queryTemplates(ProjectVo projectVo){
+        projectVo.setIsTemplate(SysConstast.CODE_ZERO);
+        projectVo.setIsOfficial(SysConstast.CODE_ZERO);
+        projectVo.setIsDel(SysConstast.AVAILABLE_TRUE);
+        return projectService.queryTempProjects(projectVo);
+    }
+
+    /**
+     * 首页的预览树
+     */
+    @RequestMapping("loadTemplateProjectTreeJson")
+    public DataGridView loadTemplateProjectTreeJson(ProjectVo projectVo){
+        List<Project> projects=projectService.queryAllProjectForList(projectVo);
+        List<ProjectNode> proNodes=new ArrayList<>();
+        for (Project project:projects){
+            Integer id=project.getProjectid();
+            String title=project.getProname();
+            String createtime=new SimpleDateFormat("yyyy-MM-dd").format(project.getCreatetime());
+            String remark=project.getRemark();
+            Integer docnumber=project.getDocnumber();
+            Integer isTemplate=project.getIsTemplate();
+            Integer isOfficial=project.getIsOfficial();
+            Integer uid=project.getUid();
+            ProjectNode proNode=new ProjectNode(id,title,createtime,remark,docnumber,isTemplate,isOfficial,uid);
+            //根据id查询document,并把结果放到叶子（文档）节点中
+            DocumentVo documentVo = new DocumentVo();
+            documentVo.setIsDel(SysConstast.AVAILABLE_TRUE);//设置查询条件：未删除
+            documentVo.setProjectid(id);//设置查询条件：父节点
+            List<Document> documents=documentService.queryAllDocumentForList(documentVo);
+            for (Document document:documents){
+                String docid="doc"+document.getDocid();
+                String doctitle=document.getDoctitle();
+                Integer doctype=document.getDoctype();
+                proNode.getChildren().add(new DocNode(docid,id,doctitle,doctype));
+            }
+            proNodes.add(proNode);
+        }
+        return new DataGridView(proNodes);
+    }
 }

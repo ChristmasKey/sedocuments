@@ -1,8 +1,11 @@
 package com.sedoc.sedocuments.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.sedoc.sedocuments.dao.ProjectMapper;
 import com.sedoc.sedocuments.model.Project;
 import com.sedoc.sedocuments.service.ProjectService;
+import com.sedoc.sedocuments.utils.DataGridView;
 import com.sedoc.sedocuments.vo.ProjectVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,6 +48,13 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void updateDocnumberMinus(Integer projectid) {
         projectMapper.updateDocnumberMinus(projectid);
+    }
+
+    @Override
+    public DataGridView queryTempProjects(ProjectVo projectVo) {
+        Page<Object> page= PageHelper.startPage(projectVo.getPage(),projectVo.getLimit());
+        List<Project> data=projectMapper.queryTempProjects(projectVo);
+        return new DataGridView(page.getTotal(),data);
     }
 
 
