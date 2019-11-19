@@ -10,4 +10,6 @@ import java.util.List;
  */
 public interface MajorService {
     List<Major> queryMajorBySchoolId(School school);
+
+    String queryMajorNameByMajorId(Integer majorid);
 }

@@ -11,4 +11,8 @@ import com.sedoc.sedocuments.vo.UserVo;
 public interface UserService {
 
     User login(UserVo userVo);
+
+    void register(UserVo userVo);
+
+    Integer checkDuplicate(UserVo userVo);
 }

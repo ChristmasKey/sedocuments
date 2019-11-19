@@ -73,6 +73,21 @@ public class ResultObj {
      */
     public static final ResultObj ISEXISTPPHONE=new ResultObj(SysConstast.CODE_SUCCESS,SysConstast.ISEXISTPPHONE);
 
+    /**
+     *注册成功
+     */
+    public static final ResultObj REGISTER_SUCCESS=new ResultObj(SysConstast.CODE_SUCCESS,SysConstast.REGISTER_SUCCESS);
+
+    /**
+     *注册失败
+     */
+    public static final ResultObj REGISTER_ERROR=new ResultObj(SysConstast.CODE_ERROR,SysConstast.REGISTER_ERROR);
+
+    /**
+     *重复的手机号码、电子邮箱或学号
+     */
+    public static final ResultObj DUPLICATE_INFO=new ResultObj(SysConstast.CODE_ERROR,SysConstast.DUPLICATE_INFO);
+
     private ResultObj(Integer code,String msg){
         super();
         this.code=code;

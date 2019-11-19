@@ -14,4 +14,6 @@ import java.util.List;
 public interface MajorMapper {
 
     List<Major> queryMajorBySchoolId(Integer isDel,Integer schoolid);
+
+    String queryMajorNameByMajorId(Integer majorid);
 }

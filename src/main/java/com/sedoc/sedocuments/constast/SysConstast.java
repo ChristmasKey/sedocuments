@@ -52,6 +52,10 @@ public interface SysConstast {
 
     String ISEXISTPPHONE="该账户(电话)已存在,请重新填写!";
 
+    String REGISTER_SUCCESS="注册成功";
+    String REGISTER_ERROR="注册失败";
+    String DUPLICATE_INFO="重复的手机号码、电子邮箱或学号";
+
     Integer CODE_SUCCESS=0; //操作成功
     Integer CODE_ERROR=-1;//失败
 

@@ -10,4 +10,9 @@
         on(t1.majorid=t2.majorid and t1.isDel=#{isDel})
         where t2.schoolid=#{schoolid};
     </select>
+
+    <!--根据编号查名称-->
+    <select id="queryMajorNameByMajorId" resultType="String">
+        select majorname from major where majorid=#{majorid} and isDel=1
+    </select>
 </mapper>

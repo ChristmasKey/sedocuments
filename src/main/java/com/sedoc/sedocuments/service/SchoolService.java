@@ -9,4 +9,6 @@ import java.util.List;
  */
 public interface SchoolService {
     List<School> queryAllSchools();
+
+    String querySchoolNameBySchoolId(Integer schoolid);
 }

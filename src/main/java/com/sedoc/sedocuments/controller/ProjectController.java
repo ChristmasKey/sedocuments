@@ -339,6 +339,8 @@ public class ProjectController {
      */
     @RequestMapping("DelProList")
     public DataGridView DelProList(ProjectVo projectVo){
+        User user=(User)WebUtils.getHttpSession().getAttribute("user");
+        projectVo.setUid(user.getUid());
         Page<Object> page = PageHelper.startPage(projectVo.getPage(), projectVo.getLimit());
         List<Project> data = projectService.selectProjectByUid(projectVo.getUid());
         return new DataGridView(page.getTotal(),data);

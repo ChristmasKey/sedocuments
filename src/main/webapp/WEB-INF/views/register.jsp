@@ -21,6 +21,9 @@
     <link rel="stylesheet" href="${ctx}/resources/css/public.css" media="all" />
 </head>
 <body>
+<div style="padding: 20px;">
+    <a type="button" class="layui-btn" href="${ctx}">去登录</a>
+</div>
 <form class="layui-form" style="text-align:center;padding-top: 100px;" lay-filter="userInfoFrm" id="userInfoFrm">
     <div class="layui-inline">
         <div class="layui-form-item">
@@ -142,7 +145,9 @@
                     //注册账号
                     //layer.msg("注册账号");
                     var params=$("#userInfoFrm").serialize();
-                    layer.msg(params);
+                    $.post("${ctx}/register/registerAccount",params,function (obj) {
+                        layer.msg(obj.msg);
+                    })
                 }
             }
         });

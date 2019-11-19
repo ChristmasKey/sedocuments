@@ -16,4 +16,9 @@ public class SchoolServiceImpl implements SchoolService {
     public List<School> queryAllSchools() {
         return schoolMapper.queryAllSchools();
     }
+
+    @Override
+    public String querySchoolNameBySchoolId(Integer schoolid) {
+        return schoolMapper.querySchoolNameBySchoolId(schoolid);
+    }
 }

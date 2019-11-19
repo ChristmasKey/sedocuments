@@ -17,4 +17,9 @@ public class MajorServiceImpl implements MajorService {
     public List<Major> queryMajorBySchoolId(School school) {
         return majorMapper.queryMajorBySchoolId(school.getIsDel(),school.getSchoolid());
     }
+
+    @Override
+    public String queryMajorNameByMajorId(Integer majorid) {
+        return majorMapper.queryMajorNameByMajorId(majorid);
+    }
 }

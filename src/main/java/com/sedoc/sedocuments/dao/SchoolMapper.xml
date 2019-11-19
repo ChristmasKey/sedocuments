@@ -8,4 +8,9 @@
     <select id="queryAllSchools" resultType="School">
         select * from school where isDel=1
     </select>
+    
+    <!--根据编号查名称-->
+    <select id="querySchoolNameBySchoolId" resultType="String">
+        select schoolname from school where schoolid=#{schoolid} and isDel=1
+    </select>
 </mapper>

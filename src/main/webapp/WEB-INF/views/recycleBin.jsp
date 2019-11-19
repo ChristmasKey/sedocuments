@@ -42,7 +42,7 @@
         //加载 数据
         tableIns = table.render({
             elem: '#proTable'
-            , url: '${ctx}/project/DelProList?uid='+2
+            , url: '${ctx}/project/DelProList'
             , toolbar: '#proToolBar' //开启头部工具栏，并为其绑定左侧模板
             , title: '已删除项目数据表'
             , height: 'full-75'

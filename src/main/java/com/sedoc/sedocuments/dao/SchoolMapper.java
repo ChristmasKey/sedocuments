@@ -13,4 +13,6 @@ import java.util.List;
 @Repository
 public interface SchoolMapper {
     List<School> queryAllSchools();
+
+    String querySchoolNameBySchoolId(Integer schoolid);
 }
