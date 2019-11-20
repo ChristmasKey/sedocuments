@@ -25,14 +25,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public User login(UserVo userVo) {
 
-        String pwd = DigestUtils.md5DigestAsHex(userVo.getPassword().getBytes());
+        String pwd = DigestUtils.md5DigestAsHex(userVo.getPassword().getBytes(StandardCharsets.UTF_8));
         userVo.setPassword(pwd);
         return userMapper.login(userVo);
     }
 
     @Override
     public void register(UserVo userVo) {
-        String pwd=DigestUtils.md5DigestAsHex(userVo.getPassword().getBytes(StandardCharsets.UTF_8));
+        String pwd = DigestUtils.md5DigestAsHex(userVo.getPassword().getBytes(StandardCharsets.UTF_8));
         userVo.setPassword(pwd);
         userMapper.register(userVo);
     }

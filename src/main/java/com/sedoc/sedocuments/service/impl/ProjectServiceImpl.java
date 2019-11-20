@@ -2,6 +2,7 @@ package com.sedoc.sedocuments.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.sedoc.sedocuments.dao.DocumentMapper;
 import com.sedoc.sedocuments.dao.ProjectMapper;
 import com.sedoc.sedocuments.model.Project;
 import com.sedoc.sedocuments.service.ProjectService;
@@ -22,6 +23,8 @@ import java.util.List;
 public class ProjectServiceImpl implements ProjectService {
     @Autowired
     private ProjectMapper projectMapper;
+    @Autowired
+    private DocumentMapper documentMapper;
 
     @Override
     public List<Project> queryAllProjectForList(ProjectVo projectVo) {
@@ -68,6 +71,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void restoreProByProId(Integer projectid) {
         projectMapper.restoreProByProId(projectid);
+        documentMapper.restoreDocByProId(projectid);
     }
 
 

@@ -96,4 +96,9 @@
     <select id="queryMaxDoctype" resultType="Integer">
         select max(doctype) from document where projectid=#{projectid}
     </select>
+
+    <!--恢复项目中的所有文档-->
+    <update id="restoreDocByProId">
+        update document set isDel=1 where projectid=#{projectid}
+    </update>
 </mapper>

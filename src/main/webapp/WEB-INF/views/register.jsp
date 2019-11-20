@@ -24,7 +24,7 @@
 <div style="padding: 20px;">
     <a type="button" class="layui-btn" href="${ctx}">去登录</a>
 </div>
-<form class="layui-form" style="text-align:center;padding-top: 100px;" lay-filter="userInfoFrm" id="userInfoFrm">
+<form class="layui-form" style="text-align:center;padding-top: 100px;" lay-filter="userInfoFrm" id="userInfoFrm" method="post">
     <div class="layui-inline">
         <div class="layui-form-item">
             <label class="layui-form-label">用户名</label>
@@ -41,13 +41,13 @@
         <div class="layui-form-item">
             <label class="layui-form-label">密码</label>
             <div class="layui-input-inline">
-                <input type="password" id="pwd" name="password" required lay-verify="required" placeholder="密码长度最少为6位" autocomplete="off" class="layui-input">
+                <input type="password" id="pwd" name="password"  lay-verify="required" placeholder="密码长度最少为6位" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">确认密码</label>
             <div class="layui-input-inline">
-                <input type="password" id="rpwd" name="repassword" required lay-verify="required" placeholder="请再次输入密码" autocomplete="off" class="layui-input">
+                <input type="password" id="rpwd" name="repassword"  lay-verify="required" placeholder="请再次输入密码" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
