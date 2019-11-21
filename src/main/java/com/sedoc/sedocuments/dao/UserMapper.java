@@ -14,6 +14,4 @@ public interface UserMapper {
     User login(User user);
 
     void register(User user);
-
-    Integer checkDuplicate(User user);
 }

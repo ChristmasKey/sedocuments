@@ -1742,7 +1742,7 @@ a cite {
 }
 
 .layui-form-label, .layui-form-mid, .layui-form-select, .layui-input-block, .layui-input-inline, .layui-textarea {
-    position: relative
+    position: relative;
 }
 
 .layui-bg-red {

@@ -34,10 +34,10 @@
     <div class="layui-form-item">
         <button class="layui-btn layui-block" lay-filter="login" lay-submit>登录</button>
     </div>
-    <div class="layui-form-item">
-        <button class="layui-btn layui-block" lay-filter="register" lay-submit>新用户注册</button>
+    <div class="layui-form-item" style="text-align: center;">
+        <a href="${ctx}/desk/toRegister">注册新用户</a>
     </div>
-    <div class="layui-form-item">
+    <div class="layui-form-item" style="text-align: center">
         <label class="layui-form-label">记住密码</label>
         <div class="layui-input-block">
             <input type="checkbox" name="close" lay-skin="switch" lay-text="是|否">
