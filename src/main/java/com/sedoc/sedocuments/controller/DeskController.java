@@ -32,7 +32,7 @@ public class DeskController {
      */
     @RequestMapping("/toUserManager")
     public String toUserManager(){
-        return "userManager";
+        return "manager/userManager";
     }
     /**
      * 跳转到模板管理
@@ -65,5 +65,21 @@ public class DeskController {
     @RequestMapping("toMyProjects")
     public String toMyProjects(){
         return "user/myProjects";
+    }
+
+    /**
+     * 跳转回收站页面
+     */
+    @RequestMapping("toRecycleBin")
+    public String toRecycleBin(){
+        return "recycleBin";
+    }
+
+    /**
+     * 跳转到注册页面
+     */
+    @RequestMapping("toRegister")
+    public String toRegister(){
+        return "register";
     }
 }

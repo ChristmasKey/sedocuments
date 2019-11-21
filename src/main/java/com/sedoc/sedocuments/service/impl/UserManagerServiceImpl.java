@@ -72,10 +72,11 @@ public class UserManagerServiceImpl implements UserManagerService {
     }
 
     @Override
-    public DataGridView queryAllRole(RoleVo roleVo) {
-        Page<Object> page = PageHelper.startPage(roleVo.getPage(), roleVo.getLimit());
-        List<Role> data = this.userManagerMapper.queryAllRole(roleVo);
-        return new DataGridView(page.getTotal(),data);
+    public List<Role> queryAllRole(RoleVo roleVo) {
+//        Page<Object> page = PageHelper.startPage(roleVo.getPage(), roleVo.getLimit());
+//        List<Role> data = this.userManagerMapper.queryAllRole(roleVo);
+//        return new DataGridView(page.getTotal(),data);
+        return userManagerMapper.queryAllRole(roleVo);
     }
 
     @Override
@@ -93,5 +94,16 @@ public class UserManagerServiceImpl implements UserManagerService {
     @Override
     public int isExistPhone(String phone) {
         return userManagerMapper.isExistPhone(phone);
+    }
+
+    /**
+     * 根据用户id查询角色id
+     * @param uid
+     * @param isDel
+     * @return
+     */
+    @Override
+    public int selectRoleIdByUid(Integer uid, Integer isDel) {
+        return userManagerMapper.selectRoleIdByUid(uid,isDel);
     }
 }

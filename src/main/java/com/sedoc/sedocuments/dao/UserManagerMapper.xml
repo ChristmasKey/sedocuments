@@ -17,6 +17,7 @@
         <result column="roleid" jdbcType="INTEGER" property="roleid" />
         <result column="isDel" jdbcType="INTEGER" property="isDel" />
     </resultMap>
+
     <sql id="Base_Column_List">
 		uid,username,phone,password,email,gender,birthday,school,major,stuid,roleid,isDel
 	</sql>
@@ -38,10 +39,12 @@
     <select id="isExistPhone" resultType="Integer">
         select count(*) from user where phone=#{phone} and isDel=1
     </select>
+
     <!--查询所有用户根据用户名称-->
     <select id="queryAllUserByUsername" resultMap="BaseResultMap">
         select <include refid="Base_Column_List" /> from  user where username like '%'#{username}'%' and isDel=1
     </select>
+
     <!--根据id删除用户 0为删除，1为存在-->
     <update id="deleteById" parameterType="java.lang.Integer">
         update user set isDel=0 where uid=#{uid}
@@ -94,6 +97,12 @@
     <select id="queryAllRole" resultType="Role">
         select * from  role where isDel=1
     </select>
+
+    <!--根据用户id查询用户的已有角色id-->
+    <select id="selectRoleIdByUid" resultType="Integer">
+        select roleid from user where uid=#{uid} and isDel=#{isDel}
+    </select>
+
     <!--分配用户角色-->
     <update id="updateRoleByUid" parameterType="User">
         update user set roleid=#{roleid} where uid=#{uid}

@@ -2,6 +2,7 @@ package com.sedoc.sedocuments.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.sedoc.sedocuments.dao.DocumentMapper;
 import com.sedoc.sedocuments.dao.ProjectMapper;
 import com.sedoc.sedocuments.model.Project;
 import com.sedoc.sedocuments.service.ProjectService;
@@ -9,6 +10,8 @@ import com.sedoc.sedocuments.utils.DataGridView;
 import com.sedoc.sedocuments.vo.ProjectVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,9 +19,12 @@ import java.util.List;
  * 丁佳男
  */
 @Service
+@Transactional(propagation = Propagation.REQUIRED,readOnly = false)
 public class ProjectServiceImpl implements ProjectService {
     @Autowired
     private ProjectMapper projectMapper;
+    @Autowired
+    private DocumentMapper documentMapper;
 
     @Override
     public List<Project> queryAllProjectForList(ProjectVo projectVo) {
@@ -55,6 +61,17 @@ public class ProjectServiceImpl implements ProjectService {
         Page<Object> page= PageHelper.startPage(projectVo.getPage(),projectVo.getLimit());
         List<Project> data=projectMapper.queryTempProjects(projectVo);
         return new DataGridView(page.getTotal(),data);
+    }
+
+    @Override
+    public List<Project> selectProjectByUid(Integer uid) {
+        return projectMapper.selectProjectByUid(uid);
+    }
+
+    @Override
+    public void restoreProByProId(Integer projectid) {
+        projectMapper.restoreProByProId(projectid);
+        documentMapper.restoreDocByProId(projectid);
     }
 
 

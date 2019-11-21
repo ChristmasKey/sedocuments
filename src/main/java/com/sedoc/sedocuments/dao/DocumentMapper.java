@@ -23,4 +23,9 @@ public interface DocumentMapper {
     Integer queryDocnumberByProjectId(Integer projectid);
 
     Integer queryMaxDoctype(Integer projectid);
+
+    /**
+     * 恢复项目下文档
+     */
+    void restoreDocByProId(Integer projectid);
 }

@@ -62,4 +62,12 @@ public interface UserManagerMapper {
      * @return
      */
     int isExistPhone(@Param("phone")String phone);
+
+    /**
+     * 根据用户id查询角色id
+     * @param uid
+     * @param isDel
+     * @return
+     */
+    int selectRoleIdByUid(@Param("uid")Integer uid,Integer isDel);
 }

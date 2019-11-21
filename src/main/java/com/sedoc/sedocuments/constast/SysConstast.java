@@ -35,6 +35,9 @@ public interface SysConstast {
     String ADD_SUCCESS="添加成功";
     String ADD_ERROR="添加失败";
 
+    String RESTORE_SUCCESS="还原成功";
+    String RESTORE_ERROR="还原失败";
+
     String UPDATE_SUCCESS="更新成功";
     String UPDATE_ERROR="更新失败";
 
@@ -48,6 +51,10 @@ public interface SysConstast {
     String DISPATCH_ERROR="分配失败";
 
     String ISEXISTPPHONE="该账户(电话)已存在,请重新填写!";
+
+    String REGISTER_SUCCESS="注册成功";
+    String REGISTER_ERROR="注册失败";
+    String DUPLICATE_INFO="重复的手机号码、电子邮箱或学号";
 
     Integer CODE_SUCCESS=0; //操作成功
     Integer CODE_ERROR=-1;//失败

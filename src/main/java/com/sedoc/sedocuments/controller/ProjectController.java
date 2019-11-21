@@ -1,5 +1,7 @@
 package com.sedoc.sedocuments.controller;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.sedoc.sedocuments.constast.SysConstast;
 import com.sedoc.sedocuments.model.Document;
 import com.sedoc.sedocuments.model.Project;
@@ -328,5 +330,35 @@ public class ProjectController {
             proNodes.add(proNode);
         }
         return new DataGridView(proNodes);
+    }
+
+    /**
+     * 回收站表格映射
+     * @param projectVo
+     * @return
+     */
+    @RequestMapping("DelProList")
+    public DataGridView DelProList(ProjectVo projectVo){
+        User user=(User)WebUtils.getHttpSession().getAttribute("user");
+        projectVo.setUid(user.getUid());
+        Page<Object> page = PageHelper.startPage(projectVo.getPage(), projectVo.getLimit());
+        List<Project> data = projectService.selectProjectByUid(projectVo.getUid());
+        return new DataGridView(page.getTotal(),data);
+    }
+
+    /**
+     * 回收站功能 恢复
+     * @param projectVo
+     * @return
+     */
+    @RequestMapping("restoreProByProId")
+    public ResultObj RestoreProByProId(ProjectVo projectVo){
+        try {
+            projectService.restoreProByProId(projectVo.getProjectid());
+            return ResultObj.RESTORE_SUCCESS;
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResultObj.RESTORE_ERROR;
+        }
     }
 }

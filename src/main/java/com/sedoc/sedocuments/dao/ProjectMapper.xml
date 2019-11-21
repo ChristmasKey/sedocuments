@@ -166,4 +166,14 @@
         </where>
         order by createtime desc
     </select>
+
+    <!--查询已经删除的项目  回收站功能-->
+    <select id="selectProjectByUid" resultType="Project">
+        select * from project where uid=#{uid} and isDel=0
+    </select>
+
+    <!--恢复已经删除的项目  回收站功能-->
+    <update id="restoreProByProId">
+        update project set isDel=1 where projectid=#{projectid}
+    </update>
 </mapper>

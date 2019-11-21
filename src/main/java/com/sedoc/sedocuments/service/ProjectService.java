@@ -44,4 +44,18 @@ public interface ProjectService {
     void updateDocnumberMinus(Integer projectid);
 
     DataGridView queryTempProjects(ProjectVo projectVo);
+
+
+    /**
+     * 回收站功能 查询已删除项目
+     * @param uid
+     * @return
+     */
+    List<Project>selectProjectByUid(Integer uid);
+
+    /**
+     * 回收站功能 恢复
+     * @param projectid
+     */
+    void restoreProByProId(Integer projectid);
 }
