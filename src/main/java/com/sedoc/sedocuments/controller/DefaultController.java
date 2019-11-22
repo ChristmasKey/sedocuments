@@ -16,10 +16,4 @@ public class DefaultController {
     public String toLogin(){
         return "login";
     }
-
-
-    @RequestMapping("/toUserInfo")
-    public String toUserInfo(){
-        return "user/userInfo";
-    }
 }

@@ -31,18 +31,14 @@
         <label for="password">密码</label>
         <input id="password" type="password" placeholder="请输入密码" autocomplete="off" name="password" class="layui-input" lay-verify="required">
     </div>
+    <div class="layui-form-item input-item" id="imgCode">
+        <label for="code">验证码</label>
+        <input type="text" placeholder="请输入验证码" value="123" autocomplete="off" id="code" class="layui-input">
+        <img src="${ctx}/resources/images/code.jpg">
+    </div>
     <div class="layui-form-item">
         <button class="layui-btn layui-block" lay-filter="login" lay-submit>登录</button>
     </div>
-    <div class="layui-form-item" style="text-align: center;">
-        <a href="${ctx}/desk/toRegister">注册新用户</a>
-    </div>
-    <%--<div class="layui-form-item" style="text-align: center">
-        <label class="layui-form-label">记住密码</label>
-        <div class="layui-input-block">
-            <input type="checkbox" name="close" lay-skin="switch" lay-text="是|否">
-        </div>
-    </div>--%>
     <div class="layui-form-item layui-row" style="text-align: center;color: red;">
         ${error }
         <!-- 	<a href="javascript:;" class="seraph icon-qq layui-col-xs4 layui-col-sm4 layui-col-md4 layui-col-lg4"></a>
@@ -53,7 +49,6 @@
 <script type="text/javascript" src="${ctx}/resources/layui/layui.js"></script>
 <script type="text/javascript" src="${ctx}/resources/js/cache.js"></script>
 <script type="text/javascript">
-
     layui.use(['form','layer','jquery'],function(){
         var form = layui.form,
             layer = parent.layer === undefined ? layui.layer : top.layer;

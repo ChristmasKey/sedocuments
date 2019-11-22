@@ -82,12 +82,4 @@ public class DeskController {
     public String toRegister(){
         return "register";
     }
-
-    /**
-     * 跳转到修改密码
-     */
-    @RequestMapping("toChangePwd")
-    public String toChangePwd(){
-        return "user/changePwd";
-    }
 }
