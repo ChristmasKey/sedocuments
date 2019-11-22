@@ -11,4 +11,5 @@ import com.sedoc.sedocuments.vo.UserVo;
 public interface UserService {
 
     User login(UserVo userVo);
+    public void register(UserVo userVo) ;
 }

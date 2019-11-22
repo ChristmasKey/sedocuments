@@ -119,8 +119,6 @@
                            class="layui-input">
                 </div>
             </div>
-        </div>
-        <div class="layui-form-item">
             <div class="layui-inline">
                 <label class="layui-form-label">用户生日:</label>
                 <div class="layui-input-inline">
@@ -128,6 +126,8 @@
                            class="layui-input">
                 </div>
             </div>
+        </div>
+        <div class="layui-form-item">
             <div class="layui-inline">
                 <label class="layui-form-label">用户邮箱:</label>
                 <div class="layui-input-inline">
@@ -135,36 +135,34 @@
                            class="layui-input">
                 </div>
             </div>
-        </div>
-        <div class="layui-form-item">
             <div class="layui-inline">
                 <label class="layui-form-label">用户学校:</label>
                 <div class="layui-input-inline">
                     <select name="school" lay-verify="required">
                         <option value=""></option>
-                        <option value="0">淮阴工学院</option>
-                        <option value="1">盐城工学院</option>
-                        <option value="2">徐海学院</option>
-                        <option value="3">中国矿业大学</option>
-                        <option value="4">淮阴师范学院</option>
-                    </select>
-                </div>
-            </div>
-            <div class="layui-inline">
-                <label class="layui-form-label">用户专业:</label>
-                <div class="layui-input-inline">
-                    <select name="major" lay-verify="required">
-                        <option value=""></option>
-                        <option value="0">计算机科学与技术（微软合作）</option>
-                        <option value="1">土木工程</option>
-                        <option value="2">徐海学院</option>
-                        <option value="3">商学院</option>
-                        <option value="4">计算机科学与技术</option>
+                        <option value="淮阴工学院">淮阴工学院</option>
+                        <option value="盐城工学院">盐城工学院</option>
+                        <option value="徐海学院">徐海学院</option>
+                        <option value="中国矿业大学">中国矿业大学</option>
+                        <option value="淮阴师范学院">淮阴师范学院</option>
                     </select>
                 </div>
             </div>
         </div>
         <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">用户专业:</label>
+                <div class="layui-input-inline">
+                    <select name="major" lay-verify="required">
+                        <option value=""></option>
+                        <option value="计算机科学与技术（微软合作）">计算机科学与技术（微软合作）</option>
+                        <option value="土木工程">土木工程</option>
+                        <option value="徐海学院">徐海学院</option>
+                        <option value="商学院">商学院</option>
+                        <option value="计算机科学与技术">计算机科学与技术</option>
+                    </select>
+                </div>
+            </div>
             <div class="layui-inline">
                 <label class="layui-form-label">用户学号:</label>
                 <div class="layui-input-inline">
@@ -225,7 +223,7 @@
                 title: '修改用户',
                 success: function (index) {
                     form.val("dataFrm", data);
-                    url = "${ctx}/userManager/updateUser";
+                    url = "${ctx}/userInfo/userInfoUpdate";
                 }
             });
         }
@@ -233,10 +231,7 @@
         form.on("submit(doSubmit)", function (data) {
             $.post(url, data.field, function (res) {
                 if (res.code == 200) {
-                    tableIns.reload();
-                }
-                if (res.msg != null) {
-                    tableIns.reload();
+                    window.location.reload();
                 }
                 layer.msg(res.msg);
                 layer.close(mainIndex);

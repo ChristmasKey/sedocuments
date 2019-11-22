@@ -41,11 +41,13 @@ public class UserInfoController {
     @RequestMapping("userInfoUpdate")
     public ResultObj updateUserById(UserVo userVo) {
         try {
+            User user = (User) WebUtils.getHttpSession().getAttribute("user");
+            userVo.setUid(user.getUid());
             userInfoService.updateUserById(userVo);
-            return ResultObj.ADD_SUCCESS;
+            return ResultObj.UPDATE_SUCCESS;
         } catch (Exception e) {
             e.printStackTrace();
-            return ResultObj.ADD_ERROR;
+            return ResultObj.UPDATE_ERROR;
         }
     }
 }

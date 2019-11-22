@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 
+import java.nio.charset.StandardCharsets;
+
 /**
  * 丁佳男
  */
@@ -26,5 +28,11 @@ public class UserServiceImpl implements UserService {
         String pwd = DigestUtils.md5DigestAsHex(userVo.getPassword().getBytes());
         userVo.setPassword(pwd);
         return userMapper.login(userVo);
+    }
+    @Override
+    public void register(UserVo userVo) {
+        String pwd=DigestUtils.md5DigestAsHex(userVo.getPassword().getBytes(StandardCharsets.UTF_8));
+        userVo.setPassword(pwd);
+        userMapper.register(userVo);
     }
 }

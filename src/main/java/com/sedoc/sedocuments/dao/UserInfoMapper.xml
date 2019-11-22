@@ -37,13 +37,13 @@
     <update id="updateUserById" parameterType="User">
         update user
         <set>
-            <if test="username != null">
+            <if test="username != null and username!=''">
                 username=#{username},
             </if>
-            <if test="phone != null">
+            <if test="phone != null and phone!=''">
                 phone=#{phone},
             </if>
-            <if test="email != null">
+            <if test="email != null and email!=''">
                 email=#{email},
             </if>
             <if test="gender != null">
@@ -52,17 +52,17 @@
             <if test="birthday != null">
                 birthday=#{birthday},
             </if>
-            <if test="school != null">
+            <if test="school != null and school!=''">
                 school=#{school},
             </if>
-            <if test="major != null">
+            <if test="major != null and major!=''">
                 major=#{major},
             </if>
-            <if test="stuid != null">
+            <if test="stuid != null and stuid!=''">
                 stuid=#{stuid}
             </if>
         </set>
-        where uid=#{uid}
+        where uid=#{uid} and isDel=1
     </update>
 
 </mapper>

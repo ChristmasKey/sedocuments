@@ -37,12 +37,12 @@
     <div class="layui-form-item" style="text-align: center;">
         <a href="${ctx}/desk/toRegister">注册新用户</a>
     </div>
-    <div class="layui-form-item" style="text-align: center">
+    <%--<div class="layui-form-item" style="text-align: center">
         <label class="layui-form-label">记住密码</label>
         <div class="layui-input-block">
             <input type="checkbox" name="close" lay-skin="switch" lay-text="是|否">
         </div>
-    </div>
+    </div>--%>
     <div class="layui-form-item layui-row" style="text-align: center;color: red;">
         ${error }
         <!-- 	<a href="javascript:;" class="seraph icon-qq layui-col-xs4 layui-col-sm4 layui-col-md4 layui-col-lg4"></a>
