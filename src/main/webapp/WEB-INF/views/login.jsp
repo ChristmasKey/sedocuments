@@ -39,6 +39,9 @@
     <div class="layui-form-item">
         <button class="layui-btn layui-block" lay-filter="login" lay-submit>登录</button>
     </div>
+    <div class="layui-form-item" style="text-align: center;">
+        <a href="${ctx}/desk/toRegister">注册新用户</a>
+    </div>
     <div class="layui-form-item layui-row" style="text-align: center;color: red;">
         ${error }
         <!-- 	<a href="javascript:;" class="seraph icon-qq layui-col-xs4 layui-col-sm4 layui-col-md4 layui-col-lg4"></a>
